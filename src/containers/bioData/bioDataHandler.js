@@ -19,7 +19,7 @@ class BioDataHandler extends Component {
         setTimeout(()=>{
         if(this.props.bioData.firstName!=="")
              this.setState({uploaded:true});
-        },100);
+        },500);
     }
     render() {
         return (

@@ -40,7 +40,7 @@ class Notes extends Component {
         this.props.action.notes.addNote(this.state.note);
         setTimeout(()=>{
             this.cancelHandler();
-        },100);
+        },1000);
     }
     render() {
 

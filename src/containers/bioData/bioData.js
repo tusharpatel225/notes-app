@@ -66,7 +66,7 @@ class BioData extends Component {
         this.props.uploadBioData(this.state);
         setTimeout(() => {
             this.props.toggleHandler();
-        },100);
+        },1000);
     }
     countryChangeHandler = (event) => {
         if(event.target.value!=="0")

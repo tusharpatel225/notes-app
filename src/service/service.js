@@ -1,5 +1,5 @@
 import axios from 'axios';
-export const baseUrl = 'http://localhost:2000/'//'https://ancient-plains-49497.herokuapp.com/';
+export const baseUrl = 'https://tushar-notes-api.herokuapp.com/'
 const baseService = axios.create({
    baseURL: baseUrl
 });
