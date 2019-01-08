@@ -1,0 +1,10 @@
+.note {
+    border:1px solid #cccccc;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 5px;
+    width: 200px;
+    box-shadow: 3px 3px 0px 0px #eeeeee;
+    display: inline-block;
+    text-align: center;
+}
