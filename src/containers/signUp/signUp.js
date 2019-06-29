@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux'
 import './signUp.css'
 import * as authAction from '../../action/action'
 import {Link} from 'react-router-dom'
-import { FormGroup, Button, Input, Label, Alert} from 'reactstrap'
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBCard, MDBCardBody} from 'mdbreact'
 
 class SignUp extends Component{
     state = {
@@ -30,31 +30,58 @@ class SignUp extends Component{
     }
     render() {
         return(
-            <div className="signUp">
-
-                {
-                    (this.state.err)?<Alert color="danger">{this.state.err}</Alert>
-                        :(this.props.auth.err)?<Alert color="danger">{this.props.auth.err}</Alert>
-                        :null
-                }
-
-                <FormGroup>
-                    <Label>Email</Label>
-                    <Input type="email" name="email" placeholder="abc@xyz.com" onChange={this.changeHandler.bind(this)}/>
-                </FormGroup>
-                <FormGroup>
-                    <Label>Password</Label>
-                    <Input type="password" name="password" placeholder="enter password" onChange={this.changeHandler.bind(this)}/>
-                </FormGroup>
-                <FormGroup>
-                    <Label>Re-enter password</Label>
-                    <Input type="password" name="rePassword" placeholder="re-enter password" onChange={this.changeHandler.bind(this)}/>
-                </FormGroup>
-                <div className="btn">
-                <Button onClick={this.btnSignUp_Click.bind(this)}>SIGN UP</Button>
-                <Button color="link" tag={Link} to="/login">LOG IN</Button>
-                </div>
-            </div>
+            <MDBContainer>
+                <MDBRow className="flex-center">
+                    <MDBCol md="5" style={{marginTop: "15%"}}>
+                        <MDBCard>
+                            <MDBCardBody>
+                                <form>
+                                    <p className="h5 text-center mb-4">Sign up</p>
+                                    <div className="grey-text">
+                                        <MDBInput
+                                            label="Your email"
+                                            icon="envelope"
+                                            group
+                                            type="email"
+                                            name="email"
+                                            validate
+                                            error="wrong"
+                                            success="right"
+                                            onChange={this.changeHandler.bind(this)}
+                                        />
+                                        <MDBInput
+                                            label="Your password"
+                                            icon="lock"
+                                            group
+                                            type="password"
+                                            name="password"
+                                            validate
+                                            onChange={this.changeHandler.bind(this)}
+                                        />
+                                        <MDBInput
+                                            label="Confirm your password"
+                                            icon="exclamation-triangle"
+                                            group
+                                            type="password"
+                                            name="rePassword"
+                                            validate
+                                            error="wrong"
+                                            success="right"
+                                            onChange={this.changeHandler.bind(this)}
+                                        />
+                                    </div>
+                                    <div className="text-center">
+                                        <MDBBtn color="primary" onClick={this.btnSignUp_Click.bind(this)}>Register</MDBBtn>
+                                    </div>
+                                    <div className="font-weight-light">
+                                        Already have an account? <Link to="login">Login</Link>
+                                    </div>
+                                </form>
+                            </MDBCardBody>
+                        </MDBCard>
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
         )
     }
 }

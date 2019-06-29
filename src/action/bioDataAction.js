@@ -1,6 +1,5 @@
 import * as bioDataService from '../service/bioDataService';
 export const uploadBioData = (data) => {
-    //console.log("note in action", note);
     return (dispatch) => {
         bioDataService.uploadBioData(data)
             .then((response) => {
@@ -24,7 +23,6 @@ export const getBioData = () => {
         bioDataService.getBioData()
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(typeof(response.data.data.firstName));
                     dispatch({
                             type: "SET",
                             data: response.data.data

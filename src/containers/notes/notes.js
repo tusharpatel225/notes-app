@@ -1,25 +1,36 @@
-import React, {Component} from  'react'
-import './notes.css'
-import {Input, Button,FormGroup, Label} from 'reactstrap'
+import React, {Component} from  'react';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import {MDBBtn, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBInput,
+    MDBCard, MDBCardBody, MDBCardHeader, MDBTable, MDBTableHead, MDBTableBody} from 'mdbreact'
+import {Radio} from '@material-ui/core';
 
-import Note from './note/note'
 import {bindActionCreators} from "redux";
 import * as notesAction from "../../action/notesAction";
 import connect from "react-redux/es/connect/connect";
+import Ax from "../../hoc/ax";
 
 class Notes extends Component {
     state = {
-            note:{_id:0, title:"", body:""},
-            updateFlag:false
-        };
+        note:{_id:0, title:"", body:""},
+        updateFlag:false,
+        viewFlag : false,
+        toggleModal : false,
+        noteId : ""
+    };
     async componentWillMount() {
         await this.props.action.notes.getNotes();
     }
-    clickHandler = (note) => {
-        this.setState({updateFlag:true,note});
+    clickHandler = () => {
+        let notes = {...this.props.notes.filter((note) => note._id === this.state.noteId)[0]};
+        this.setState({updateFlag:true,note : notes, toggleModal: true});
+    }
+    viewHandler = () => {
+        let notes = {...this.props.notes.filter((note) => note._id === this.state.noteId)[0]};
+        this.setState({viewFlag:true,note : notes, toggleModal:true});
     }
     cancelHandler = () => {
-        this.setState({note:{_id:0, title:"", body:""}, updateFlag:false})
+        this.setState({note:{_id:0, title:"", body:""}, updateFlag:false, toggleModal: false, noteId:"", viewFlag:false})
     }
     updateHandler = (e) => {
         e.preventDefault();
@@ -31,9 +42,23 @@ class Notes extends Component {
         note[event.target.name]=event.target.value;
         this.setState({note})
     }
-    deleteHandler = (e, id) => {
-        e.preventDefault();
-        this.props.action.notes.deleteNote(id);
+    deleteHandler = () => {
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        this.props.action.notes.deleteNote(this.state.noteId);
+                        this.setState({noteId: ""});
+                    }
+                },
+                {
+                    label: 'No'
+                }
+            ]
+        });
     }
     addHandler = async (e) => {
         e.preventDefault();
@@ -42,36 +67,109 @@ class Notes extends Component {
             this.cancelHandler();
         },1000);
     }
+    toggleModal = () => {
+        let toggle = this.state.toggleModal;
+        if(toggle){
+            this.cancelHandler();
+        }
+        this.setState({toggleModal : !toggle});
+    }
     render() {
-
         return(
             <div>
-                <h1>My Notes</h1>
-                <div className="noteControl">
-                        <FormGroup>
-                            <Label>Title</Label>
-                            <Input type="text" name="title" value={this.state.note.title} onChange={this.changeHandler.bind(this)}/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Body</Label>
-                            <Input type="textarea" rows="4" name="body" value={this.state.note.body} onChange={this.changeHandler.bind(this)}/>
-                        </FormGroup>
-                        <div className="btn">
-                    {
-                        (!this.state.updateFlag) ?
-                        <Button color="primary" onClick={this.addHandler.bind(this)}>ADD NOTE</Button>
-                     : <Button color="primary" onClick={this.updateHandler.bind(this)}>UPDATE</Button>
-
-                    }
-
-                    <Button onClick={this.cancelHandler.bind(this)}>CANCEL</Button></div>
-                </div>
+                <MDBModal isOpen={this.state.toggleModal}>
+                    <MDBModalHeader>
+                        {
+                            (this.state.updateFlag) ? 'Update ': (this.state.viewFlag) ? 'View ' : 'Add '
+                        }
+                        Note
+                    </MDBModalHeader>
+                    <MDBModalBody>
+                        <MDBInput readOnly={this.state.viewFlag} label="Title" type="text" name="title" value={this.state.note.title} onChange={this.changeHandler.bind(this)}/>
+                        <MDBInput readOnly={this.state.viewFlag} label="Body" type="textarea" rows="3" name="body" value={this.state.note.body} onChange={this.changeHandler.bind(this)}/>
+                    </MDBModalBody>
+                    <MDBModalFooter>
+                        <MDBBtn color="secondary" onClick={this.toggleModal.bind(this)}>Close</MDBBtn>
+                        {
+                            (this.state.updateFlag) ? <MDBBtn color="primary" onClick={this.updateHandler.bind(this)}>Update Note</MDBBtn>
+                                : (!this.state.viewFlag)? <MDBBtn color="primary" onClick={this.addHandler.bind(this)}>Add Note</MDBBtn>
+                                : null
+                        }
+                    </MDBModalFooter>
+                </MDBModal>
                 {
-                    this.props.notes.map((note) => {
-                        return <Note delete={this.deleteHandler.bind(this)} clicked={this.clickHandler.bind(this,note)} key={note._id} note={note}/>
-                    })
+                    (this.props.notes.length > 0) ?
+                        <Ax>
+                            <MDBCard narrow className="mt-4">
+                                <MDBCardHeader className="view view-cascade gradient-card-header blue-gradient d-flex justify-content-between align-items-center py-2 mx-4 mb-3">
+                                    <div>
+                                        <MDBBtn outline rounded size="sm" color="white" className="px-2" onClick={this.toggleModal.bind(this)}>
+                                            <i className="fa fa-plus mt-0" title="Add Note"></i>
+                                        </MDBBtn>
+                                    </div>
+                                    <div className="white-text mx-3">My Notes</div>
+                                    <div>
+                                        <MDBBtn outline rounded size="sm" color="white" className="px-2" onClick={this.clickHandler.bind(this)}
+                                                disabled={this.state.noteId === ""}>
+                                            <i className="fas fa-pencil-alt mt-0" title="edit"></i>
+                                        </MDBBtn>
+                                        <MDBBtn outline rounded size="sm" color="white" className="px-2" onClick={this.deleteHandler.bind(this)}
+                                                disabled={this.state.noteId === ""}>
+                                            <i className="fas fa-times mt-0" title="delete"></i>
+                                        </MDBBtn>
+                                        <MDBBtn outline rounded size="sm" color="white" className="px-2"
+                                                disabled={this.state.noteId === ""} onClick={this.viewHandler.bind(this)}>
+                                            <i className="fa fa-info-circle mt-0" title="View"></i>
+                                        </MDBBtn>
+                                    </div>
+                                </MDBCardHeader>
+                                <MDBCardBody cascade>
+                                    <MDBTable btn fixed>
+                                        <MDBTableHead columns={[
+                                            {
+                                                'label': <MDBBtn color="primary" outline size="sm" className="px-2" title="clear"
+                                                                 onClick={ () => {this.setState({noteId:""})}}>
+                                                            <i className="fa fa-times mt-0"></i>
+                                                </MDBBtn>,
+                                                'field': 'check',
+                                                'sort': 'asc'
+                                            },
+                                            {
+                                                'label': 'Number',
+                                                'field': 'number',
+                                                'sort': 'asc'
+                                            },
+                                            {
+                                                'label': 'Title',
+                                                'field': 'title',
+                                                'sort': 'asc'
+                                            },
+                                            {
+                                                'label': 'Body',
+                                                'field': 'body',
+                                                'sort': 'asc'
+                                            }]} />
+                                        <MDBTableBody rows={this.props.notes.map((note, index) => {
+                                            return {
+                                                'check':<Radio
+                                                    color="primary"
+                                                    id={"chk"+index}
+                                                    value={note._id}
+                                                    name="chk"
+                                                    onChange={() => {this.setState({noteId : note._id})}}
+                                                    checked={this.state.noteId === note._id}
+                                                />,
+                                                'number':index+1,
+                                                'title':note.title,
+                                                'body':<div className="text-truncate">{note.body}</div>
+                                            }
+                                        })} />
+                                    </MDBTable>
+                                </MDBCardBody>
+                            </MDBCard>
+                        </Ax>
+                        : null
                 }
-
             </div>
         )
     }

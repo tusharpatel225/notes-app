@@ -1,11 +1,9 @@
 import * as notesService from '../service/notesService';
 export const addNote = (note) => {
-    //console.log("note in action", note);
     return (dispatch) => {
         notesService.addNote(note)
             .then((response) => {
                 if (response.status === 200) {
-                    //console.log(response.data);
                     dispatch({
                         type: "ADD",
                         data: response.data

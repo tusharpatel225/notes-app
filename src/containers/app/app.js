@@ -25,7 +25,6 @@ class App extends Component {
                     <CRoute cprivate path="/notes" exact component={Notes}/>
                     <CRoute cprivate path="/bioData" exact component={BioData}/>
                     <CRoute component ={PageNotFound}/>
-            
                 </Switch>
                 </Ax>
             </Router>

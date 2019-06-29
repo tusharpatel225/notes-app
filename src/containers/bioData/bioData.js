@@ -1,46 +1,25 @@
 import React, {Component} from 'react';
-import {getAllCountries, getStatesOfCountry, getCitiesOfState, getCountryById} from 'country-state-city'
-import { Button,Row, Col,CustomInput, Form,InputGroupAddon, InputGroup, FormGroup, Label, Input} from 'reactstrap';
+import {getAllCountries, getStatesOfCountry, getCitiesOfState} from 'country-state-city'
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBFormInline, MDBCardBody, MDBCard, MDBFooter} from 'mdbreact'
+import moment from 'moment';
+import {Select,InputLabel,FormControl, FormControlLabel, Checkbox, Radio} from '@material-ui/core';
 import './bioData.css'
 import Ax from '../../hoc/ax'
 class BioData extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            countryId : "",
-            stateId : "",
-            firstName : "",
-            lastName : "",
-            gen : "",
-            address : "",
-            dob : "",
-            city : "",
-            mno : "",
-            hobby : ""
-        }
+    state = {
+        countryId : "",
+        stateId : "",
+        firstName : "",
+        lastName : "",
+        gen : "",
+        address : "",
+        dob : "",
+        city : "",
+        mno : "",
+        hobby : ""
     }
     async componentWillMount() {
         await this.setState(this.props.bioData);
-        this.valueSetter();
-    }
-    valueSetter(){
-        if(this.state.firstName!=="") {
-            const form = document.forms["bioData"];
-            form['firstName'].value = this.state.firstName;
-            form['lastName'].value = this.state.lastName;
-            form['address'].value = this.state.address;
-            form['mno'].value = this.state.mno;
-            form['dob'].value = this.state.dob;
-            form['country'].value = this.state.countryId;
-            form['state'].value = this.state.stateId;
-            form['city'].value = this.state.city;
-            form['gen'].value = this.state.gen;
-            let hobby = this.state.hobby.split(',');
-            if (hobby.includes('reading'))
-                form['reading'].checked = true;
-            if (hobby.includes('drawing'))
-                form['drawing'].checked = true;
-        }
     }
     valueChangeHandler = (event) => {
         if(event.target.name !== "hobby")
@@ -80,78 +59,131 @@ class BioData extends Component {
     }
     render() {
         return (
-            <Form className="bioData" id="bioData">
-                <h6>BIO-DATA</h6>
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label>First Name</Label>
-                            <Input type="text" name="firstName" id="firstName" placeholder="first" onChange={this.valueChangeHandler} />
-                        </FormGroup>
-                    </Col>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label>Last Name</Label>
-                            <Input type="text" name="lastName" placeholder="last" onChange={this.valueChangeHandler}/>
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <FormGroup>
-                    <Label>Gender</Label>
-                    <div>
-                        <CustomInput  id="male" value="male" type="radio"
-                                      name="gen" label="Male" onClick={this.valueChangeHandler} inline
+            <MDBContainer className="mt-4">
+            <MDBCard>
+                <MDBCardBody>
+                <MDBRow>
+                    <MDBCol size="6">
+                        <MDBInput
+                            label="First Name"
+                            group
+                            type="text"
+                            id="firstName"
+                            name="firstName"
+                            validate
+                            error="wrong"
+                            success="right"
+                            value={this.state.firstName}
+                            onChange={this.valueChangeHandler}
                         />
-                        <CustomInput id="female" value="female" type="radio"
-                                     name="gen" label="Female" onClick={this.valueChangeHandler} inline
+                    </MDBCol>
+                    <MDBCol size="6">
+                        <MDBInput
+                            label="Last Name"
+                            group
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            validate
+                            error="wrong"
+                            success="right"
+                            value={this.state.lastName}
+                            onChange={this.valueChangeHandler}
                         />
-                    </div>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="exampleText">Date of Birth</Label>
-                    <Input type="date" name="dob" onChange={this.valueChangeHandler} />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="exampleText">Address</Label>
-                    <Input type="textarea" name="address" onChange={this.valueChangeHandler}/>
-                </FormGroup>
-                <Row form>
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label>Country</Label>
-                            <Input type="select" name="country" id="country" onChange = {this.countryChangeHandler}>
-                                <option value="0">select country</option>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <label>Gender</label>
+                        <MDBFormInline>
+                            <Radio
+                                onClick={this.valueChangeHandler}
+                                color="primary"
+                                value="male"
+                                name="gen"
+                                id="male"
+                                checked={this.state.gen==="male"}
+                            />
+                            <label>Male</label>
+                            <Radio
+                                onClick={this.valueChangeHandler}
+                                color="primary"
+                                value="female"
+                                name="gen"
+                                id="female"
+                                checked={this.state.gen==="female"}
+                            />
+                            <label>Female</label>
+                        </MDBFormInline>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBInput type="date" name="dob" onChange={this.valueChangeHandler} label="Date of birth" value={moment(this.state.dob).format("YYYY-MM-DD")}/>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol size={4}>
+                        <FormControl>
+                        <InputLabel htmlFor="country">Country</InputLabel>
+                            <Select
+                                native
+                                value={this.state.countryId}
+                                onChange={this.countryChangeHandler}
+                                inputProps={{
+                                    name: 'country',
+                                    id: 'country',
+                                }}
+                            >
+                                <Ax>
+                                    <option value="0">select country</option>
                                 {
                                     getAllCountries().map((country) => {
                                         return <option key={country.id} value={country.id}>{country.name}</option>
                                     })
                                 }
-                            </Input>
-                        </FormGroup>
-                    </Col>
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label>State</Label>
-                            <Input type="select" name="state" id="state" onChange={this.stateChangeHandler}>
-                                {
-                                    (!this.state.countryId)?<option>first select country</option>:
-                                        <Ax>
+                                </Ax>
+                            </Select>
+                        </FormControl>
+                    </MDBCol>
+                    <MDBCol size={4}>
+                        <FormControl>
+                            <InputLabel htmlFor="state">State</InputLabel>
+                            <Select
+                                native
+                                value={this.state.stateId}
+                                onChange={this.stateChangeHandler}
+                                inputProps={{
+                                    name: 'state',
+                                    id: 'state',
+                                }}
+                            >
+                            {
+                                (!this.state.countryId)?<option>first select country</option>:
+                                    <Ax>
                                         <option value="0">select state</option>
-                                            {
-                                                getStatesOfCountry(this.state.countryId).map((state) => {
-                                                    return <option key={state.id} value={state.id}>{state.name}</option>
-                                                })
-                                            }
-                                        </Ax>
-                                }
-
-                            </Input>
-                        </FormGroup>
-                    </Col>
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label>City</Label>
-                            <Input type="select" name="city" id="city" onChange={this.valueChangeHandler}>
+                                        {
+                                            getStatesOfCountry(this.state.countryId).map((state) => {
+                                                return <option key={state.id} value={state.id}>{state.name}</option>
+                                            })
+                                        }
+                                    </Ax>
+                            }
+                            </Select>
+                        </FormControl>
+                    </MDBCol>
+                    <MDBCol size={4}>
+                        <FormControl>
+                            <InputLabel htmlFor="city">City</InputLabel>
+                            <Select
+                                native
+                                value={this.state.city}
+                                onChange={this.stateChangeHandler}
+                                inputProps={{
+                                    name: 'city',
+                                    id: 'city',
+                                }}
+                            >
                                 {
                                     (!this.state.stateId)?<option>first select state</option>:
                                         <Ax>
@@ -163,30 +195,65 @@ class BioData extends Component {
                                             }
                                         </Ax>
                                 }
-                            </Input>
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <FormGroup>
-                    <Label>Mobile Number</Label>
-                    <InputGroup>
-                        <InputGroupAddon addonType="prepend">{(this.state.countryId)?'+'+getCountryById(this.state.countryId-1).phonecode:'+'}</InputGroupAddon>
-                        <Input name="mno" id="mno" onChange={this.valueChangeHandler}/>
-                    </InputGroup>
-                </FormGroup>
-
-                <FormGroup>
-                    <Label>Hobby</Label>
-                    <div>
-                        <CustomInput id="reading" value="reading" type="checkbox"
-                                     name="hobby" label="Reading" onClick={this.valueChangeHandler} inline />
-                        <CustomInput id="drawing" type="checkbox" value="drawing"
-                                     name="hobby" label="Drawing" onChange={this.valueChangeHandler} inline />
-                    </div>
-                </FormGroup>
-                <Button onClick={this.submitHandler}>SUBMIT</Button>
-                <Button onClick={this.props.toggleHandler}>CANCEL</Button>
-            </Form>
+                            </Select>
+                        </FormControl>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBInput type="textarea" label="Address" rows="2" name="address" value={this.state.address} onChange={this.valueChangeHandler}/>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBInput
+                            type="text"
+                            label="Mobile Number"
+                            name="mno"
+                            id="mno"
+                            value={this.state.mno}
+                            onChange={this.valueChangeHandler}
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <label>Hobbies</label>
+                        <MDBFormInline>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={this.state.hobby.includes("reading")}
+                                        onChange={this.valueChangeHandler}
+                                        value="reading"
+                                        color="primary"
+                                        name="hobby"
+                                    />
+                                }
+                                label="Reading"
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={this.state.hobby.includes("drawing")}
+                                        onChange={this.valueChangeHandler}
+                                        value="drawing"
+                                        color="primary"
+                                        name="hobby"
+                                    />
+                                }
+                                label="Reading"
+                            />
+                        </MDBFormInline>
+                    </MDBCol>
+                </MDBRow>
+                <MDBFooter className="text-center">
+                        <MDBBtn color="primary" onClick={this.submitHandler}>SUBMIT</MDBBtn>
+                        <MDBBtn color="secondary" onClick={this.props.toggleHandler}>CANCEL</MDBBtn>
+                </MDBFooter>
+                </MDBCardBody>
+            </MDBCard>
+            </MDBContainer>
         );
     }
 }

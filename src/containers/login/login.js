@@ -3,9 +3,9 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import './login.css'
-import * as authAction from '../../action/action'
-import {Link} from 'react-router-dom'
-import {FormGroup, Button, Input, Label, Alert} from 'reactstrap'
+import * as authAction from '../../action/action';
+import {Link} from 'react-router-dom';
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody} from 'mdbreact';
 
 class Login extends Component{
     state = {
@@ -21,24 +21,45 @@ class Login extends Component{
     }
     render() {
         return(
-
-            <div className="login">
-                {
-                    (this.props.auth.err)?<Alert color="danger">{this.props.auth.err}</Alert>:null
-                }
-                <FormGroup>
-                    <Label>Email</Label>
-                    <Input type="email" placeholder="abc@xyz.com" onChange={this.changeHandler.bind(this)}/>
-                </FormGroup>
-                <FormGroup>
-                    <Label>Password</Label>
-                    <Input type="password" placeholder="enter password" onChange={this.changeHandler.bind(this)}/>
-                </FormGroup>
-                <div className="btn">
-                <Button onClick={this.btnLogIn_Click.bind(this)}>LOG IN</Button>
-                <Button color="link" tag={Link} to="/signUp">SIGN UP</Button>
-                </div>
-            </div>
+            <MDBContainer>
+                <MDBRow className="flex-center">
+                    <MDBCol md="5" style={{marginTop: "15%"}}>
+                        <MDBCard>
+                            <MDBCardBody>
+                                <form>
+                                    <p className="h5 text-center mb-4">Sign in</p>
+                                    <div className="grey-text">
+                                        <MDBInput
+                                            label="Email Address"
+                                            icon="envelope"
+                                            group
+                                            type="email"
+                                            validate
+                                            error="wrong"
+                                            success="right"
+                                            onChange={this.changeHandler.bind(this)}
+                                        />
+                                        <MDBInput
+                                            label="Password"
+                                            icon="lock"
+                                            group
+                                            type="password"
+                                            validate
+                                            onChange={this.changeHandler.bind(this)}
+                                        />
+                                    </div>
+                                    <div className="text-center">
+                                        <MDBBtn color="primary" onClick={this.btnLogIn_Click.bind(this)}>Login</MDBBtn>
+                                    </div>
+                                    <div className="font-weight-light">
+                                        Not a member? <Link to="signUp">Sign Up</Link>
+                                    </div>
+                                </form>
+                            </MDBCardBody>
+                        </MDBCard>
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
         )
     }
 }

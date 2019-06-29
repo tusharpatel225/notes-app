@@ -3,7 +3,6 @@ export const loginUser = (credentials) => {
     return (dispatch) => {
         authService.login(credentials)
             .then((response) => {
-                //console.log(response.data);
                 if (response.status === 200) {
                     localStorage.setItem("token", response.data.token)
                     dispatch({
@@ -35,7 +34,6 @@ export const logoutUser = () => {
                     dispatch({ type: "ERR", data: { err: "Invalid token" } });
                 }
             });
-        
     }
 };
 
@@ -43,7 +41,6 @@ export const signUpUser = (data) => {
     return (dispatch) => {
         authService.signUp(data)
             .then((response) => {
-                //console.log(response.data);
                 if (response.status === 200) {
                     localStorage.setItem("token", response.data.token)
                     dispatch({

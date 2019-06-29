@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import './index.css'
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import App from './containers/app/app';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
 import * as serviceWorker from './serviceWorker';
-import store from './reducer/store'
+import store from './reducer/store';
+
+//import './index.css'
+import App from './containers/app/app';
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
