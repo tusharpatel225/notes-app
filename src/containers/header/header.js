@@ -15,9 +15,14 @@ class Header extends Component {
     }
     handleClick = (e) => {
         e.preventDefault();
+        this.props.action.auth.logoutUser();
         this.props.action.bioData.unSetBioData();
         this.props.action.notes.unSetNotes();
-        this.props.action.auth.logoutUser();
+    }
+    componentDidMount(){
+        let location = window.location.toString();
+        let tab = location.substr(location.lastIndexOf("/"));
+        this.setState({activeTab : tab})
     }
     componentWillUpdate(){
         let location = window.location.toString();

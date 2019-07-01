@@ -16,7 +16,19 @@ const INIT_STATE = {
         err: ""
     },
     notes : [],
-    bioData : {}
+    bioData : {
+        countryId : "",
+        stateId : "",
+        firstName : "",
+        lastName : "",
+        gen : "",
+        address : "",
+        dob : "",
+        city : "",
+        mno : "",
+        hobby : ""
+    },
+    isLoading : false
 }
 if(localStorage.getItem("token"))
     INIT_STATE.auth.token = localStorage.getItem("token");

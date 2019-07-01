@@ -4,7 +4,6 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import {MDBBtn, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBInput,
     MDBCard, MDBCardBody, MDBCardHeader, MDBTable, MDBTableHead, MDBTableBody} from 'mdbreact'
 import {Radio} from '@material-ui/core';
-
 import {bindActionCreators} from "redux";
 import * as notesAction from "../../action/notesAction";
 import connect from "react-redux/es/connect/connect";
@@ -62,9 +61,7 @@ class Notes extends Component {
     addHandler = async (e) => {
         e.preventDefault();
         this.props.action.notes.addNote(this.state.note);
-        setTimeout(()=>{
-            this.cancelHandler();
-        },1000);
+        this.cancelHandler();
     }
     toggleModal = () => {
         let toggle = this.state.toggleModal;
@@ -105,78 +102,81 @@ class Notes extends Component {
                         </MDBModalFooter>
                     </form>
                 </MDBModal>
-                {
-                    (this.props.notes.length > 0) ?
-                        <MDBCard className="mt-4">
-                                <MDBCardHeader className="view view-cascade gradient-card-header blue-gradient d-flex justify-content-between align-items-center py-2 mx-4 mb-3">
-                                    <div>
-                                        <MDBBtn outline rounded size="sm" color="white" className="px-2" onClick={this.toggleModal.bind(this)}>
-                                            <i className="fa fa-plus mt-0" title="Add Note"></i>
-                                        </MDBBtn>
-                                    </div>
-                                    <div className="white-text mx-3">My Notes</div>
-                                    <div>
-                                        <MDBBtn outline rounded size="sm" color="white" className="px-2" onClick={this.clickHandler.bind(this)}
-                                                disabled={this.state.noteId === ""}>
-                                            <i className="fas fa-pencil-alt mt-0" title="edit"></i>
-                                        </MDBBtn>
-                                        <MDBBtn outline rounded size="sm" color="white" className="px-2" onClick={this.deleteHandler.bind(this)}
-                                                disabled={this.state.noteId === ""}>
-                                            <i className="fas fa-times mt-0" title="delete"></i>
-                                        </MDBBtn>
-                                        <MDBBtn outline rounded size="sm" color="white" className="px-2"
-                                                disabled={this.state.noteId === ""} onClick={this.viewHandler.bind(this)}>
-                                            <i className="fa fa-info-circle mt-0" title="View"></i>
-                                        </MDBBtn>
-                                    </div>
-                                </MDBCardHeader>
-                                <MDBCardBody cascade>
-                                    <MDBTable fixed>
-                                        <MDBTableHead columns={[
-                                            {
-                                                'label': <MDBBtn color="primary" outline size="sm" className="px-2" title="clear"
-                                                                 onClick={ () => {this.setState({noteId:""})}}
-                                                                 disabled={this.state.noteId === ""}>
-                                                            <i className="fa fa-times mt-0"></i>
-                                                </MDBBtn>,
-                                                'field': 'check',
-                                                'sort': 'asc'
-                                            },
-                                            {
-                                                'label': 'Number',
-                                                'field': 'number',
-                                                'sort': 'asc'
-                                            },
-                                            {
-                                                'label': 'Title',
-                                                'field': 'title',
-                                                'sort': 'asc'
-                                            },
-                                            {
-                                                'label': 'Body',
-                                                'field': 'body',
-                                                'sort': 'asc'
-                                            }]} />
-                                        <MDBTableBody rows={this.props.notes.map((note, index) => {
-                                            return {
-                                                'check':<Radio
-                                                    color="primary"
-                                                    id={"chk"+index}
-                                                    value={note._id}
-                                                    name="chk"
-                                                    onChange={() => {this.setState({noteId : note._id})}}
-                                                    checked={this.state.noteId === note._id}
-                                                />,
-                                                'number':index+1,
-                                                'title':note.title,
-                                                'body':<div className="text-truncate">{note.body}</div>
-                                            }
-                                        })} />
-                                    </MDBTable>
-                                </MDBCardBody>
-                            </MDBCard>
-                        : null
-                }
+                    <MDBCard className="mt-4">
+                        <MDBCardHeader className="view view-cascade gradient-card-header blue-gradient d-flex justify-content-between align-items-center py-2 mx-4 mb-3">
+                            <div>
+                                <MDBBtn outline rounded size="sm" color="white" className="px-2" onClick={this.toggleModal.bind(this)}>
+                                    <i className="fa fa-plus mt-0" title="Add Note"></i>
+                                </MDBBtn>
+                            </div>
+                            <div className="white-text mx-3">My Notes</div>
+                            <div>
+                                <MDBBtn outline rounded size="sm" color="white" className="px-2" onClick={this.clickHandler.bind(this)}
+                                        disabled={this.state.noteId === ""}>
+                                    <i className="fas fa-pencil-alt mt-0" title="edit"></i>
+                                </MDBBtn>
+                                <MDBBtn outline rounded size="sm" color="white" className="px-2" onClick={this.deleteHandler.bind(this)}
+                                        disabled={this.state.noteId === ""}>
+                                    <i className="fas fa-times mt-0" title="delete"></i>
+                                </MDBBtn>
+                                <MDBBtn outline rounded size="sm" color="white" className="px-2"
+                                        disabled={this.state.noteId === ""} onClick={this.viewHandler.bind(this)}>
+                                    <i className="fa fa-info-circle mt-0" title="View"></i>
+                                </MDBBtn>
+                            </div>
+                        </MDBCardHeader>
+                        <MDBCardBody cascade>
+                            {this.props.notes.length > 0 ?
+                                <MDBTable fixed>
+                                    <MDBTableHead columns={[
+                                        {
+                                            'label': <MDBBtn color="primary" outline size="sm" className="px-2"
+                                                             title="clear"
+                                                             onClick={() => {
+                                                                 this.setState({noteId: ""})
+                                                             }}
+                                                             disabled={this.state.noteId === ""}>
+                                                <i className="fa fa-times mt-0"></i>
+                                            </MDBBtn>,
+                                            'field': 'check',
+                                            'sort': 'asc'
+                                        },
+                                        {
+                                            'label': 'Number',
+                                            'field': 'number',
+                                            'sort': 'asc'
+                                        },
+                                        {
+                                            'label': 'Title',
+                                            'field': 'title',
+                                            'sort': 'asc'
+                                        },
+                                        {
+                                            'label': 'Body',
+                                            'field': 'body',
+                                            'sort': 'asc'
+                                        }]}/>
+                                    <MDBTableBody rows={this.props.notes.map((note, index) => {
+                                        return {
+                                            'check': <Radio
+                                                color="primary"
+                                                id={"chk" + index}
+                                                value={note._id}
+                                                name="chk"
+                                                onChange={() => {
+                                                    this.setState({noteId: note._id})
+                                                }}
+                                                checked={this.state.noteId === note._id}
+                                            />,
+                                            'number': index + 1,
+                                            'title': note.title,
+                                            'body': <div className="text-truncate">{note.body}</div>
+                                        }
+                                    })}/>
+                                </MDBTable> : <div>No Data Found</div>
+                            }
+                        </MDBCardBody>
+                    </MDBCard>
             </div>
         )
     }

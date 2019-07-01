@@ -20,7 +20,7 @@ class BioDataHandler extends Component {
         return (
             <Ax>
                 {
-                    (!this.state.toggle && this.props.bioData.firstName) ?
+                    (!this.state.toggle) ?
                         <MDBAlert color="info" className="bioData">
                             <h4 className="alert-heading">
                                 {(this.props.bioData.firstName)?'You have successfully uploaded your bio-data'

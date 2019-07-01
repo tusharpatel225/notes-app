@@ -118,7 +118,8 @@ class BioData extends Component {
                 </MDBRow>
                 <MDBRow>
                     <MDBCol>
-                        <MDBInput type="date" name="dob" onChange={this.valueChangeHandler} label="Date of birth" value={moment(this.state.dob).format("YYYY-MM-DD")}/>
+                        <MDBInput type="date" name="dob" onChange={this.valueChangeHandler} label="Date of birth"
+                                  value={ this.state.dob ? moment(this.state.dob).format("YYYY-MM-DD") : ""}/>
                     </MDBCol>
                 </MDBRow>
                 <MDBRow>
@@ -241,7 +242,7 @@ class BioData extends Component {
                                         name="hobby"
                                     />
                                 }
-                                label="Reading"
+                                label="Drawing"
                             />
                         </MDBFormInline>
                     </MDBCol>

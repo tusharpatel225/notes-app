@@ -10,12 +10,14 @@ const INIT_STATE = {
         mno : "",
         hobby : ""
 }
+export const SET_BIODATA = "SET_BIODATA";
+export const UNSET_BIODATA = "UNSET_BIODATA";
 const stateHandler = (state = INIT_STATE, action) => {
     switch(action.type){
-        case 'SET':
+        case SET_BIODATA:
             state=action.data;
             return state;
-        case 'UNSET':
+        case UNSET_BIODATA:
             state = INIT_STATE;
             return state;
         default :

@@ -10,6 +10,7 @@ import Ax from '../../hoc/ax'
 import CRoute from '../../Route/croute'
 import Notes from '../notes/notes'
 import BioData from '../bioData/bioDataHandler'
+import Loader from '../loader/loader';
 
 class App extends Component {
     render() {
@@ -17,6 +18,7 @@ class App extends Component {
             <Router>
                 <Ax>
                     <Header/>
+                    <Loader/>
                     <Switch>
                         <CRoute cprivate path="/" exact component ={Home}/>
                         <CRoute path="/login" exact component ={Login}/>

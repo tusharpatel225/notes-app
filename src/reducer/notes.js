@@ -1,18 +1,25 @@
 const INIT_STATE = {
     notes:[]
 }
+export const ADD_NOTE = "ADD_NOTE";
+export const UPDATE_NOTE = "UPDATE_NOTE";
+export const LIST_NOTE = "LIST_NOTE";
+export const DELETE_NOTE = "DELETE_NOTE";
+export const UNSET_NOTE = "UNSET_NOTE";
 const stateHandler = (state = INIT_STATE, action) => {
     switch(action.type){
-        case 'LIST':
-            state=action.data;
+        case LIST_NOTE:
+            state = action.data;
             return state;
-        case 'ADD':
-            state.push(action.data);
+        case ADD_NOTE:
+            let tempData = [...state];
+            tempData.push(action.data);
+            state = tempData;
             return state;
-        case 'REMOVE':
+        case DELETE_NOTE:
             state = state.filter((note)=>note._id!==action.data);
             return state;
-        case 'UPDATE':
+        case UPDATE_NOTE:
             let notes = state.filter((note)=> {
                 if(note._id===action.data._id) {
                     note.title=action.data.title;
@@ -23,7 +30,7 @@ const stateHandler = (state = INIT_STATE, action) => {
             });
             state = notes;
             return state;
-        case 'UNSET':
+        case UNSET_NOTE:
             state = INIT_STATE;
             return state;
         default :
