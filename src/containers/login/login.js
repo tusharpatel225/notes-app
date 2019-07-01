@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-
-import './login.css'
-import * as authAction from '../../action/action';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {Link} from 'react-router-dom';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody} from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody, MDBAlert} from 'mdbreact';
+
+import './login.css';
+import * as authAction from '../../action/action';
 
 class Login extends Component{
     state = {
@@ -19,6 +19,9 @@ class Login extends Component{
         e.preventDefault();
         this.props.action.auth.loginUser(this.state);
     }
+    componentWillMount(){
+        this.props.auth.err = "";
+    }
     render() {
         return(
             <MDBContainer>
@@ -26,7 +29,8 @@ class Login extends Component{
                     <MDBCol md="5" style={{marginTop: "15%"}}>
                         <MDBCard>
                             <MDBCardBody>
-                                <form>
+                                <form className="needs-validation"
+                                      onSubmit={this.btnLogIn_Click.bind(this)}>
                                     <p className="h5 text-center mb-4">Sign in</p>
                                     <div className="grey-text">
                                         <MDBInput
@@ -35,21 +39,27 @@ class Login extends Component{
                                             group
                                             type="email"
                                             validate
-                                            error="wrong"
-                                            success="right"
                                             onChange={this.changeHandler.bind(this)}
+                                            required
                                         />
                                         <MDBInput
                                             label="Password"
                                             icon="lock"
                                             group
                                             type="password"
+                                            id="password"
+                                            minLength={6}
                                             validate
                                             onChange={this.changeHandler.bind(this)}
+                                            required
                                         />
+                                        {
+                                            (this.props.auth.err) ? <MDBAlert color="danger">
+                                                {this.props.auth.err}</MDBAlert> : null
+                                        }
                                     </div>
                                     <div className="text-center">
-                                        <MDBBtn color="primary" onClick={this.btnLogIn_Click.bind(this)}>Login</MDBBtn>
+                                        <MDBBtn type="submit" color="primary">Login</MDBBtn>
                                     </div>
                                     <div className="font-weight-light">
                                         Not a member? <Link to="signUp">Sign Up</Link>
@@ -66,7 +76,7 @@ class Login extends Component{
 
 const mapStateToProps = (state) => {
     const {auth} = state;
-    return {auth:auth}
+    return {auth}
 };
 const mapDispatchToProps = (dispatch) => ({
     action : {

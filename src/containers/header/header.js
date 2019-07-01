@@ -41,21 +41,21 @@ class Header extends Component {
                 <MDBNavbarNav right>
                     <MDBNavItem active={this.state.activeTab === "/"} onClick={this.navClick}>
                         <MDBNavLink to="/">
-                            <MDBIcon icon="home" className="d-inline-inline" />{" "}
-                            <div className="d-none d-md-inline">Home</div>
+                            <MDBIcon icon="home" className="d-inline-inline" />
+                            <div className="d-none d-md-inline"> Home</div>
                         </MDBNavLink>
                     </MDBNavItem>
                     <MDBNavItem active={this.state.activeTab === "/notes"} onClick={this.navClick}>
                         <MDBNavLink to="/notes">
-                            <MDBIcon icon="sticky-note" className="d-inline-inline" />{" "}
-                            <div className="d-none d-md-inline">My Notes</div>
+                            <MDBIcon icon="sticky-note" className="d-inline-inline" />
+                            <div className="d-none d-md-inline"> My Notes</div>
                         </MDBNavLink>
                     </MDBNavItem>
                     <MDBNavItem>
                         <MDBDropdown>
                             <MDBDropdownToggle nav caret>
-                                <MDBIcon icon="user" className="d-inline-inline" />{" "}
-                                <div className="d-none d-md-inline">Account</div>
+                                <MDBIcon icon="user" className="d-inline-inline" />
+                                <div className="d-none d-md-inline"> Account</div>
                             </MDBDropdownToggle>
                             <MDBDropdownMenu right>
                                 <MDBDropdownItem className="menu-link" active={this.state.activeTab === "/bioData"} tag={MDBNavLink} to="/bioData"

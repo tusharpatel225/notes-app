@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import {Link} from 'react-router-dom'
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBCard, MDBCardBody, MDBAlert} from 'mdbreact'
 
 import './signUp.css'
 import * as authAction from '../../action/action'
-import {Link} from 'react-router-dom'
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBCard, MDBCardBody} from 'mdbreact'
 
 class SignUp extends Component{
     state = {
@@ -19,14 +19,16 @@ class SignUp extends Component{
     }
     btnSignUp_Click = (e) => {
         e.preventDefault();
-        this.setState({err:""})
-        if(this.state.password !== this.state.rePassword)
-            this.setState({err:"password does not match"});
-        else if(this.state.password.length < 6)
-            this.setState({err:"password should 6 or more in length"});
+        this.setState({err:""});
+        if(this.state.password !== this.state.rePassword) {
+            this.setState({err: "password does not match"});
+        }
         else
             this.props.action.auth.signUpUser({email:this.state.email,password:this.state.password});
 
+    }
+    componentWillMount(){
+        this.props.auth.err = "";
     }
     render() {
         return(
@@ -35,7 +37,8 @@ class SignUp extends Component{
                     <MDBCol md="5" style={{marginTop: "15%"}}>
                         <MDBCard>
                             <MDBCardBody>
-                                <form>
+                                <form className="needs-validation"
+                                      onSubmit={this.btnSignUp_Click.bind(this)}>
                                     <p className="h5 text-center mb-4">Sign up</p>
                                     <div className="grey-text">
                                         <MDBInput
@@ -45,8 +48,7 @@ class SignUp extends Component{
                                             type="email"
                                             name="email"
                                             validate
-                                            error="wrong"
-                                            success="right"
+                                            required
                                             onChange={this.changeHandler.bind(this)}
                                         />
                                         <MDBInput
@@ -55,6 +57,9 @@ class SignUp extends Component{
                                             group
                                             type="password"
                                             name="password"
+                                            required
+                                            minLength={6}
+                                            maxLength={10}
                                             validate
                                             onChange={this.changeHandler.bind(this)}
                                         />
@@ -64,14 +69,21 @@ class SignUp extends Component{
                                             group
                                             type="password"
                                             name="rePassword"
+                                            required
+                                            minLength={6}
+                                            maxLength={10}
                                             validate
-                                            error="wrong"
-                                            success="right"
                                             onChange={this.changeHandler.bind(this)}
                                         />
+                                        {
+                                            (this.state.err) ? <div className="text-center">
+                                                <MDBAlert color="danger">{this.state.err}</MDBAlert>
+                                            </div> : (this.props.auth.err) ? <MDBAlert color="info">{this.props.auth.err}</MDBAlert> : null
+                                        }
+
                                     </div>
                                     <div className="text-center">
-                                        <MDBBtn color="primary" onClick={this.btnSignUp_Click.bind(this)}>Register</MDBBtn>
+                                        <MDBBtn color="primary" type="submit">Register</MDBBtn>
                                     </div>
                                     <div className="font-weight-light">
                                         Already have an account? <Link to="login">Login</Link>
