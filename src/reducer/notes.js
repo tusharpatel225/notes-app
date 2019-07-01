@@ -12,7 +12,10 @@ const stateHandler = (state = INIT_STATE, action) => {
             state = action.data;
             return state;
         case ADD_NOTE:
-            let tempData = [...state];
+            let tempData = [];
+            if(state.length > 0){
+                tempData = [...state];
+            }
             tempData.push(action.data);
             state = tempData;
             return state;

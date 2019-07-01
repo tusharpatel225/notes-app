@@ -31,7 +31,7 @@ export const getNotes = () => {
         notesService.getNotes()
             .then((response) => {
                 dispatch({type : UNSET_LOADER});
-                if (response.status === 200 && response.data !== null && response.data.length > 0) {
+                if (response.status === 200 && response.data !== null && response.data.notes.length > 0) {
                     return dispatch({
                             type: LIST_NOTE,
                             data:response.data.notes
