@@ -81,7 +81,7 @@ class Notes extends Component {
         return(
             <div>
                 <MDBModal isOpen={this.state.toggleModal}>
-                    <form onSubmit={this.state.viewFlag ? this.addHandler.bind(this) : this.updateHandler.bind(this) }>
+                    <form onSubmit={this.state.updateFlag ? this.updateHandler.bind(this) : this.addHandler.bind(this) }>
                         <MDBModalHeader>
                             {
                                 (this.state.updateFlag) ? 'Update ': (this.state.viewFlag) ? 'View ' : 'Add '

@@ -12,24 +12,23 @@ import Notes from '../notes/notes'
 import BioData from '../bioData/bioDataHandler'
 
 class App extends Component {
-  render() {
-    return (
-
+    render() {
+        return (
             <Router>
                 <Ax>
-                 <Header/>
-                <Switch>
-                    <CRoute cprivate path="/" exact component ={Home}/>
-                    <CRoute path="/login" exact component ={Login}/>
-                    <CRoute path="/signUp" exact component ={SignUp}/>
-                    <CRoute cprivate path="/notes" exact component={Notes}/>
-                    <CRoute cprivate path="/bioData" exact component={BioData}/>
-                    <CRoute component ={PageNotFound}/>
-                </Switch>
+                    <Header/>
+                    <Switch>
+                        <CRoute cprivate path="/" exact component ={Home}/>
+                        <CRoute path="/login" exact component ={Login}/>
+                        <CRoute path="/signUp" exact component ={SignUp}/>
+                        <CRoute cprivate path="/notes" exact component={Notes}/>
+                        <CRoute cprivate path="/bioData" exact component={BioData}/>
+                        <CRoute component ={PageNotFound}/>
+                    </Switch>
                 </Ax>
             </Router>
-    );
-  }
+        );
+    }
 }
 
 export default App;
