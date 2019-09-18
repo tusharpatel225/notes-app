@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {Link} from 'react-router-dom'
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBCard, MDBCardBody, MDBAlert} from 'mdbreact'
+import { MDBContainer, MDBBtn, MDBInput, MDBCard, MDBCardBody, MDBAlert} from 'mdbreact'
 
-import './signUp.css'
+import '../login/login.css'
 import * as authAction from '../../action/action'
 
 class SignUp extends Component{
@@ -32,67 +32,63 @@ class SignUp extends Component{
     }
     render() {
         return(
-            <MDBContainer>
-                <MDBRow className="flex-center">
-                    <MDBCol md="5" style={{marginTop: "15%"}}>
-                        <MDBCard>
-                            <MDBCardBody>
-                                <form className="needs-validation"
-                                      onSubmit={this.btnSignUp_Click.bind(this)}>
-                                    <p className="h5 text-center mb-4">Sign up</p>
-                                    <div className="grey-text">
-                                        <MDBInput
-                                            label="Your email"
-                                            icon="envelope"
-                                            group
-                                            type="email"
-                                            name="email"
-                                            validate
-                                            required
-                                            onChange={this.changeHandler.bind(this)}
-                                        />
-                                        <MDBInput
-                                            label="Your password"
-                                            icon="lock"
-                                            group
-                                            type="password"
-                                            name="password"
-                                            required
-                                            minLength={6}
-                                            maxLength={10}
-                                            validate
-                                            onChange={this.changeHandler.bind(this)}
-                                        />
-                                        <MDBInput
-                                            label="Confirm your password"
-                                            icon="exclamation-triangle"
-                                            group
-                                            type="password"
-                                            name="rePassword"
-                                            required
-                                            minLength={6}
-                                            maxLength={10}
-                                            validate
-                                            onChange={this.changeHandler.bind(this)}
-                                        />
-                                        {
-                                            (this.state.err) ? <div className="text-center">
-                                                <MDBAlert color="danger">{this.state.err}</MDBAlert>
-                                            </div> : (this.props.auth.err) ? <MDBAlert color="info">{this.props.auth.err}</MDBAlert> : null
-                                        }
+            <MDBContainer className="login-container d-flex align-items-center justify-content-center">
+                <MDBCard>
+                    <MDBCardBody>
+                        <form className="needs-validation"
+                              onSubmit={this.btnSignUp_Click.bind(this)}>
+                            <p className="h5 text-center mb-4">Sign up</p>
+                            <div className="grey-text">
+                                <MDBInput
+                                    label="Your email"
+                                    icon="envelope"
+                                    group
+                                    type="email"
+                                    name="email"
+                                    validate
+                                    required
+                                    onChange={this.changeHandler.bind(this)}
+                                />
+                                <MDBInput
+                                    label="Your password"
+                                    icon="lock"
+                                    group
+                                    type="password"
+                                    name="password"
+                                    required
+                                    minLength={6}
+                                    maxLength={10}
+                                    validate
+                                    onChange={this.changeHandler.bind(this)}
+                                />
+                                <MDBInput
+                                    label="Confirm your password"
+                                    icon="exclamation-triangle"
+                                    group
+                                    type="password"
+                                    name="rePassword"
+                                    required
+                                    minLength={6}
+                                    maxLength={10}
+                                    validate
+                                    onChange={this.changeHandler.bind(this)}
+                                />
+                                {
+                                    (this.state.err) ? <div className="text-center">
+                                        <MDBAlert color="danger">{this.state.err}</MDBAlert>
+                                    </div> : (this.props.auth.err) ? <MDBAlert color="info">{this.props.auth.err}</MDBAlert> : null
+                                }
 
-                                    </div>
-                                    <div className="text-center">
-                                        <MDBBtn color="primary" type="submit">Register</MDBBtn>
-                                    </div>
-                                    <div className="font-weight-light">
-                                        Already have an account? <Link to="login">Login</Link>
-                                    </div>
-                                </form>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                </MDBRow>
+                            </div>
+                            <div className="text-center">
+                                <MDBBtn color="primary" type="submit">Register</MDBBtn>
+                            </div>
+                            <div className="font-weight-light">
+                                Already have an account? <Link to="login">Login</Link>
+                            </div>
+                        </form>
+                    </MDBCardBody>
+                </MDBCard>
             </MDBContainer>
         )
     }

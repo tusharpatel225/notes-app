@@ -1,9 +1,9 @@
 import baseService from './service.js';
-const getToken = () => localStorage.getItem("token");
+
 export function uploadBioData(data){
-    return baseService.post('/users/bioData?token='+getToken(),data,{ headers: {'Content-Type': 'application/json'} })
+    return baseService.post('/users/bioData',data)
 }
 export function getBioData(){
-    return baseService.get('/users/bioData?token='+getToken(),null,{ headers: {'Content-Type': 'application/json'} })
+    return baseService.get('/users/bioData')
 }
 

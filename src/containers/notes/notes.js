@@ -76,7 +76,7 @@ class Notes extends Component {
     }
     render() {
         return(
-            <div>
+            <>
                 <MDBModal isOpen={this.state.toggleModal}>
                     <form onSubmit={this.state.updateFlag ? this.updateHandler.bind(this) : this.addHandler.bind(this) }>
                         <MDBModalHeader>
@@ -177,7 +177,7 @@ class Notes extends Component {
                             }
                         </MDBCardBody>
                     </MDBCard>
-            </div>
+            </>
         )
     }
 }

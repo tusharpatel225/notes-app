@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import {getAllCountries, getStatesOfCountry, getCitiesOfState} from 'country-state-city'
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBFormInline, MDBCardBody, MDBCard, MDBFooter} from 'mdbreact'
 import moment from 'moment';
-import {Select,InputLabel,FormControl, FormControlLabel, Checkbox, Radio} from '@material-ui/core';
+import {Select,FormControl, FormControlLabel, Checkbox, Radio} from '@material-ui/core';
 
 import './bioData.css'
-import Ax from '../../hoc/ax'
 class BioData extends Component {
     state = {
         countryId : "",
@@ -125,7 +124,7 @@ class BioData extends Component {
                 <MDBRow>
                     <MDBCol size={4}>
                         <FormControl>
-                        <InputLabel htmlFor="country">Country</InputLabel>
+                            <label>Country</label>
                             <Select
                                 native
                                 value={this.state.countryId}
@@ -135,20 +134,20 @@ class BioData extends Component {
                                     id: 'country',
                                 }}
                             >
-                                <Ax>
+                                <>
                                     <option value="0">select country</option>
                                 {
                                     getAllCountries().map((country) => {
                                         return <option key={country.id} value={country.id}>{country.name}</option>
                                     })
                                 }
-                                </Ax>
+                                </>
                             </Select>
                         </FormControl>
                     </MDBCol>
                     <MDBCol size={4}>
                         <FormControl>
-                            <InputLabel htmlFor="state">State</InputLabel>
+                            <label>State</label>
                             <Select
                                 native
                                 value={this.state.stateId}
@@ -160,25 +159,25 @@ class BioData extends Component {
                             >
                             {
                                 (!this.state.countryId)?<option>first select country</option>:
-                                    <Ax>
+                                    <>
                                         <option value="0">select state</option>
                                         {
                                             getStatesOfCountry(this.state.countryId).map((state) => {
                                                 return <option key={state.id} value={state.id}>{state.name}</option>
                                             })
                                         }
-                                    </Ax>
+                                    </>
                             }
                             </Select>
                         </FormControl>
                     </MDBCol>
                     <MDBCol size={4}>
                         <FormControl>
-                            <InputLabel htmlFor="city">City</InputLabel>
+                            <label>City</label>
                             <Select
                                 native
                                 value={this.state.city}
-                                onChange={this.stateChangeHandler}
+                                onChange={this.valueChangeHandler}
                                 inputProps={{
                                     name: 'city',
                                     id: 'city',
@@ -186,14 +185,14 @@ class BioData extends Component {
                             >
                                 {
                                     (!this.state.stateId)?<option>first select state</option>:
-                                        <Ax>
+                                        <>
                                             <option value="0">select city</option>
                                             {
                                                 getCitiesOfState(this.state.stateId).map((city) => {
                                                     return <option key={city.id} value={city.id}>{city.name}</option>
                                                 })
                                             }
-                                        </Ax>
+                                        </>
                                 }
                             </Select>
                         </FormControl>
@@ -222,14 +221,14 @@ class BioData extends Component {
                         <MDBFormInline>
                             <FormControlLabel
                                 control={
-                                    <Checkbox
-                                        checked={this.state.hobby.includes("reading")}
-                                        onChange={this.valueChangeHandler}
-                                        value="reading"
-                                        color="primary"
-                                        name="hobby"
-                                    />
-                                }
+                                <Checkbox
+                                    checked={this.state.hobby.includes("reading")}
+                                    onChange={this.valueChangeHandler}
+                                    value="reading"
+                                    color="primary"
+                                    name="hobby"
+                                />
+                            }
                                 label="Reading"
                             />
                             <FormControlLabel

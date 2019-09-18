@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { MDBBtn, MDBAlert} from 'mdbreact';
-import Ax from '../../hoc/ax'
 import BioData from './bioData'
 import {bindActionCreators} from "redux";
 import * as bioDataAction from "../../action/bioDataAction";
@@ -18,7 +17,7 @@ class BioDataHandler extends Component {
     }
     render() {
         return (
-            <Ax>
+            <>
                 {
                     (!this.state.toggle) ?
                         <MDBAlert color="info" className="bioData">
@@ -39,7 +38,7 @@ class BioDataHandler extends Component {
                                  bioData =  {this.props.bioData}
                         /> : null
                 }
-            </Ax>
+            </>
         )
     }
 }
