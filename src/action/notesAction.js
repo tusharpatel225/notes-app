@@ -4,10 +4,10 @@ import {SET_LOADER, UNSET_LOADER} from "../reducer/loader";
 
 export const addNote = (note) => {
     return (dispatch) => {
-        dispatch({type : SET_LOADER});
+        dispatch({type: SET_LOADER});
         notesService.addNote(note)
             .then((response) => {
-                dispatch({type : UNSET_LOADER});
+                dispatch({type: UNSET_LOADER});
                 if (response.status === 200) {
                     dispatch({
                         type: ADD_NOTE,
@@ -18,7 +18,7 @@ export const addNote = (note) => {
                 }
             })
             .catch((error) => {
-                dispatch({type : UNSET_LOADER});
+                dispatch({type: UNSET_LOADER});
                 if (error) {
                     console.log(error);
                 }
@@ -27,21 +27,21 @@ export const addNote = (note) => {
 };
 export const getNotes = () => {
     return (dispatch) => {
-        dispatch({type : SET_LOADER});
+        dispatch({type: SET_LOADER});
         notesService.getNotes()
             .then((response) => {
-                dispatch({type : UNSET_LOADER});
+                dispatch({type: UNSET_LOADER});
                 if (response.status === 200 && response.data !== null && response.data.notes.length > 0) {
                     return dispatch({
-                            type: LIST_NOTE,
-                            data:response.data.notes
-                        });
+                        type: LIST_NOTE,
+                        data: response.data.notes
+                    });
                 } else {
                     throw Error("notes not found");
                 }
             })
             .catch((error) => {
-                dispatch({type : UNSET_LOADER});
+                dispatch({type: UNSET_LOADER});
                 if (error) {
                     console.log(error);
                 }
@@ -50,10 +50,10 @@ export const getNotes = () => {
 };
 export const deleteNote = (id) => {
     return (dispatch) => {
-        dispatch({type : SET_LOADER});
+        dispatch({type: SET_LOADER});
         notesService.deleteNote(id)
             .then((response) => {
-                dispatch({type : UNSET_LOADER});
+                dispatch({type: UNSET_LOADER});
                 if (response.status === 200) {
                     dispatch({
                         type: DELETE_NOTE,
@@ -62,7 +62,7 @@ export const deleteNote = (id) => {
                 }
             })
             .catch((error) => {
-                dispatch({type : UNSET_LOADER});
+                dispatch({type: UNSET_LOADER});
                 if (error) {
                     console.log(error);
                 }
@@ -71,10 +71,10 @@ export const deleteNote = (id) => {
 };
 export const updateNote = (note) => {
     return (dispatch) => {
-        dispatch({type : SET_LOADER});
+        dispatch({type: SET_LOADER});
         notesService.updateNote(note)
             .then((response) => {
-                dispatch({type : UNSET_LOADER});
+                dispatch({type: UNSET_LOADER});
                 if (response.status === 200) {
                     dispatch({
                         type: UPDATE_NOTE,
@@ -83,7 +83,7 @@ export const updateNote = (note) => {
                 }
             })
             .catch((error) => {
-                dispatch({type : UNSET_LOADER});
+                dispatch({type: UNSET_LOADER});
                 if (error) {
                     console.log(error);
                 }

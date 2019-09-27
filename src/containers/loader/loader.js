@@ -3,13 +3,15 @@ import {connect} from "react-redux";
 
 import './loader.css';
 
-class Loader extends React.Component{
-    render(){
-        return(
+class Loader extends React.Component {
+    render() {
+        return (
             <>
-            {
-                this.props.isLoading ? <div className="spinner-wrapper"><div className="spinner-border"></div></div> : null
-            }
+                {
+                    this.props.isLoading ? <div className="spinner-wrapper">
+                        <div className="spinner-border"></div>
+                    </div> : null
+                }
             </>
         )
     }
@@ -21,7 +23,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    actions : {}
+    actions: {}
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Loader);
