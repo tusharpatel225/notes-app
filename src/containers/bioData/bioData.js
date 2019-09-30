@@ -45,8 +45,9 @@ class BioData extends Component {
         this.props.toggleHandler();
     }
     countryChangeHandler = (event) => {
-        if (event.target.value !== "0")
+        if (event.target.value !== "0") {
             return this.setState({countryId: event.target.value, stateId: ""});
+        }
         return this.setState({countryId: "", stateId: ""});
     }
     stateChangeHandler = (event) => {

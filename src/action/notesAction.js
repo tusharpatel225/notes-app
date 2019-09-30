@@ -4,25 +4,29 @@ import {SET_LOADER, UNSET_LOADER} from "../reducer/loader";
 
 export const addNote = (note) => {
     return (dispatch) => {
-        dispatch({type: SET_LOADER});
-        notesService.addNote(note)
-            .then((response) => {
-                dispatch({type: UNSET_LOADER});
-                if (response.status === 200) {
-                    dispatch({
-                        type: ADD_NOTE,
-                        data: response.data
-                    });
-                } else {
-                    throw Error("cant add note");
-                }
-            })
-            .catch((error) => {
-                dispatch({type: UNSET_LOADER});
-                if (error) {
-                    console.log(error);
-                }
-            });
+        return new Promise((resolve, reject) => {
+            dispatch({type: SET_LOADER});
+            notesService.addNote(note)
+                .then((response) => {
+                    dispatch({type: UNSET_LOADER});
+                    if (response.status === 200) {
+                        dispatch({
+                            type: ADD_NOTE,
+                            data: response.data
+                        });
+                    } else {
+                        throw Error("cant add note");
+                    }
+                    resolve();
+                })
+                .catch((error) => {
+                    dispatch({type: UNSET_LOADER});
+                    if (error) {
+                        console.log(error);
+                    }
+                    reject();
+                });
+        });
     }
 };
 export const getNotes = () => {
@@ -50,44 +54,52 @@ export const getNotes = () => {
 };
 export const deleteNote = (id) => {
     return (dispatch) => {
-        dispatch({type: SET_LOADER});
-        notesService.deleteNote(id)
-            .then((response) => {
-                dispatch({type: UNSET_LOADER});
-                if (response.status === 200) {
-                    dispatch({
-                        type: DELETE_NOTE,
-                        data: response.data.note._id
-                    });
-                }
-            })
-            .catch((error) => {
-                dispatch({type: UNSET_LOADER});
-                if (error) {
-                    console.log(error);
-                }
-            });
+        return new Promise((resolve, reject) => {
+            dispatch({type: SET_LOADER});
+            notesService.deleteNote(id)
+                .then((response) => {
+                    dispatch({type: UNSET_LOADER});
+                    if (response.status === 200) {
+                        dispatch({
+                            type: DELETE_NOTE,
+                            data: response.data.note._id
+                        });
+                    }
+                    resolve();
+                })
+                .catch((error) => {
+                    dispatch({type: UNSET_LOADER});
+                    if (error) {
+                        console.log(error);
+                    }
+                    reject();
+                });
+        });
     }
 };
 export const updateNote = (note) => {
     return (dispatch) => {
-        dispatch({type: SET_LOADER});
-        notesService.updateNote(note)
-            .then((response) => {
-                dispatch({type: UNSET_LOADER});
-                if (response.status === 200) {
-                    dispatch({
-                        type: UPDATE_NOTE,
-                        data: note
-                    });
-                }
-            })
-            .catch((error) => {
-                dispatch({type: UNSET_LOADER});
-                if (error) {
-                    console.log(error);
-                }
-            });
+        return new Promise((resolve, reject) => {
+            dispatch({type: SET_LOADER});
+            notesService.updateNote(note)
+                .then((response) => {
+                    dispatch({type: UNSET_LOADER});
+                    if (response.status === 200) {
+                        dispatch({
+                            type: UPDATE_NOTE,
+                            data: note
+                        });
+                    }
+                    resolve();
+                })
+                .catch((error) => {
+                    dispatch({type: UNSET_LOADER});
+                    if (error) {
+                        console.log(error);
+                    }
+                     reject();
+                });
+        });
     }
 };
 

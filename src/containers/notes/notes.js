@@ -40,9 +40,9 @@ class Notes extends Component {
             viewFlag: false
         })
     }
-    updateHandler = (e) => {
+    updateHandler = async (e) => {
         e.preventDefault();
-        this.props.action.notes.updateNote(this.state.note);
+        await this.props.action.notes.updateNote(this.state.note);
         this.cancelHandler();
     }
     changeHandler = (event) => {
@@ -70,7 +70,7 @@ class Notes extends Component {
     }
     addHandler = async (e) => {
         e.preventDefault();
-        this.props.action.notes.addNote(this.state.note);
+        await this.props.action.notes.addNote(this.state.note);
         this.cancelHandler();
     }
     toggleModal = () => {
