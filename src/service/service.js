@@ -12,8 +12,12 @@ baseService.interceptors.response.use(
     (response) => {
         return response
     },
-    (error) => {
-        return Promise.reject({...error})
+    ({response}) => {
+        if(response && response.status === 401){
+            localStorage.removeItem("token");
+            window.location = "/login";
+        }
+        return Promise.reject(response)
     }
 )
 export default baseService;

@@ -34,9 +34,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = dispatch => ({
-    actions: {
-    }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CRoute)
+export default connect(mapStateToProps)(CRoute)
