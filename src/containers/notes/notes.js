@@ -19,8 +19,8 @@ class Notes extends Component {
         noteId: ""
     };
 
-    async componentWillMount() {
-        await this.props.action.notes.getNotes();
+    componentDidMount() {
+        this.props.action.notes.getNotes();
     }
 
     clickHandler = () => {

@@ -20,8 +20,8 @@ class BioData extends Component {
         hobby: ""
     }
 
-    async componentWillMount() {
-        await this.setState(this.props.bioData);
+    componentDidMount() {
+        this.setState(this.props.bioData);
     }
 
     valueChangeHandler = (event) => {
@@ -39,9 +39,9 @@ class BioData extends Component {
             this.setState({hobby: hobby.join(',')});
         }
     }
-    submitHandler = (event) => {
+    submitHandler = async (event) => {
         event.preventDefault();
-        this.props.uploadBioData(this.state);
+        await this.props.uploadBioData(this.state);
         this.props.toggleHandler();
     }
     countryChangeHandler = (event) => {

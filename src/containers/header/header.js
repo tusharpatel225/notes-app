@@ -29,7 +29,7 @@ class Header extends PureComponent {
         this.setState({activeTab: tab})
     }
 
-    componentWillUpdate(nextProps, nextState, nextContext) {
+    componentDidUpdate(prevProps, prevState ,ss) {
         let location = window.location.toString();
         let tab = location.substr(location.lastIndexOf("/"));
         if (this.state.activeTab !== tab) {

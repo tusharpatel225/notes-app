@@ -27,7 +27,7 @@ class SignUp extends Component{
             this.props.action.auth.signUpUser({email:this.state.email,password:this.state.password});
 
     }
-    componentWillMount(){
+    componentDidMount(){
         this.props.auth.err = "";
     }
     render() {

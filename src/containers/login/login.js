@@ -19,7 +19,7 @@ class Login extends Component{
         e.preventDefault();
         this.props.action.auth.loginUser(this.state);
     }
-    componentWillMount(){
+    componentDidMount(){
         this.props.auth.err = "";
     }
     render() {
